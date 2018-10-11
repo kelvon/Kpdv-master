@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             xmlns:MyEffects="clr-namespace:Kpdv.Effects"
+             xmlns:EntryEffects="clr-namespace:Kpdv.Renderers"
+             x:Class="Kpdv.Views.Login"
+             Title="Login"
+             BackgroundColor="DodgerBlue">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="ConfigBranco48.png" Order="Primary" Command="{Binding EmpresaCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout 
+                Orientation="Vertical"
+                VerticalOptions="StartAndExpand"
+                Padding="20"
+                Spacing="20">
+                
+                <Frame
+                    Margin="0,50,0,0"
+                    BackgroundColor="White"
+                    HasShadow="False">
+
+                    <StackLayout 
+                        Orientation="Vertical" 
+                        Padding="20"
+                        Spacing="10">
+
+                        <Image
+                            HorizontalOptions="Center"
+                            VerticalOptions="StartAndExpand"
+                            HeightRequest="100"
+                            Source="LogK2.png"
+                            Aspect="AspectFit"/>    
+
+                        <StackLayout  Orientation="Horizontal">
+
+                            <EntryEffects:CustomPicker ItemsSource="{Binding ListEmpresas}" 
+                                ItemDisplayBinding="{Binding Fantazia}"
+                                SelectedIndex="{Binding EmpresaSelIndex}"    
+                                SelectedItem="{Binding EmpresaSelItem}"
+                                Image="arrow_down_black"
+                                Title="Selecione uma Empresa" 
+                                TextColor="Gray"
+                                FontSize="14"
+                                WidthRequest="250"
+                                HeightRequest="55">
+                                <Picker.Behaviors>
+                                    <b:EventToCommandBehavior 
+                                        EventName="SelectedIndexChanged" 
+                                        Command="{Binding EmpresaSelCommand}"/>
+                                </Picker.Behaviors>
+                            </EntryEffects:CustomPicker>
+
+                        </StackLayout>
+
+                        <Grid BackgroundColor="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+
+                            <Image Source="ic_user.png" />
+                            <EntryEffects:CustomEntry x:Name="TextUsuario"
+                                   VerticalOptions="Center"
+                                   Text="{Binding Usuario}"
+                                   Placeholder="Usuário"
+                                   HeightRequest="55"
+                                   BackgroundColor="White"
+                                   Grid.Column="1">
+                                <Entry.Effects>
+                                    <MyEffects:ReturnKeyEffects ReturnText="Next"/>
+                                </Entry.Effects>
+                            </EntryEffects:CustomEntry>
+                        </Grid>
+
+                        <Grid BackgroundColor="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Image Source="ic_password.png" />
+                            <EntryEffects:CustomEntry x:Name="TextSenha"
+                               VerticalOptions="Center"
+                               Text="{Binding Senha}"
+                               IsPassword="true" 
+                               Placeholder="Senha"
+                               HeightRequest="55"
+                               BackgroundColor="White"
+                               Grid.Column="1">
+                                <Entry.Effects>
+                                    <MyEffects:ReturnKeyEffects ReturnText="Done"/>
+                                </Entry.Effects>
+                            </EntryEffects:CustomEntry>
+                        </Grid>
+
+                        <Button x:Name="BTLogin"
+                            Text="Login"
+                            Command="{Binding LoginCommand}"
+                            WidthRequest="20"
+                            HeightRequest="40"
+                            BackgroundColor="DodgerBlue"
+                            TextColor="White"/>
+
+                        <ActivityIndicator x:Name="actInd"
+                            IsRunning="{ Binding IsLoading }"
+                            IsVisible="{ Binding IsLoading }"
+                                           Color="DodgerBlue" />
+
+                    </StackLayout>
+                </Frame>
+
+                <!--IsEnabled="{Binding Source={x:Reference TextUsuario}, Path=Text.Length, Converter={StaticResource IntToBool}}"-->
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

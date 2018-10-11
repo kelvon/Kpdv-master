@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             x:Class="Kpdv.Views.EmpresaPage"
+             BackgroundColor="LightGray"
+             Title="Lista de Empresas">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="AddBranco48.png" Order="Primary" Command="{Binding AddEmpresaCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        
+        <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand" Padding="10">
+            <ListView  
+                    SeparatorVisibility="None"
+                    x:Name="listView" 
+                    HasUnevenRows="True"
+                    RowHeight="60"
+                    IsPullToRefreshEnabled="true"
+                    ItemsSource="{Binding ListEmpresas}">
+                <ListView.Behaviors>
+                    <b:EventToCommandBehavior 
+                            EventName="ItemTapped"
+                            Command="{Binding ItemTappedCommand}"
+                            EventArgsParameterPath="Item"/>
+                </ListView.Behaviors>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell
+                            Height="110">
+                            <StackLayout 
+                                    Margin="1"
+                                    Padding="10, 5, 10, 5"
+                                    BackgroundColor="White"
+                                    Orientation="Vertical"
+                                    VerticalOptions="FillAndExpand">
+
+                                <Label Text="{Binding Fantazia}" TextColor="DodgerBlue" FontAttributes="Bold" Font="Meldium" FontSize="16" />
+                                <Label Text="{Binding UrlBase}"
+                                           TextColor="Gray" 
+                                           Font="Small"/>
+
+                                <BoxView
+                                    Margin="0,10,0,0"
+                                    HeightRequest="1"
+                                    BackgroundColor="Gray"
+                                    HorizontalOptions="FillAndExpand" />
+
+                                <Label 
+                                    HorizontalTextAlignment="Center"
+                                    Text="Toque para mais informações" 
+                                    TextColor="DodgerBlue" 
+                                    FontAttributes="Bold"
+                                    FontSize="14" />
+
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+
+    </ContentPage.Content>
+    
+    
+</ContentPage>

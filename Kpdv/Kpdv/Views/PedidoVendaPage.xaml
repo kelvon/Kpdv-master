@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="Kpdv.Views.PedidoVendaPage"
+             Title="Pedido de Venda" Icon="PedidoBranco48.png">
+
+    <ContentPage.Content>
+
+        <StackLayout  Orientation="Vertical">
+            <Grid HorizontalOptions="CenterAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <!--0-->
+                    <ColumnDefinition Width="Auto" />
+                    <!--1-->
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!--0-->
+                </Grid.RowDefinitions>
+
+                <Picker
+                    ItemsSource="{Binding ListUsuarios}" 
+                    SelectedItem="{Binding UsuarioSel}"
+                    ItemDisplayBinding="{Binding Usuario}"
+                  
+                    Title="Selecione um Vendedor"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    TextColor="Black"
+                    FontSize="Small">
+                    <Picker.Behaviors>
+                        <b:EventToCommandBehavior 
+                        EventName="SelectedIndexChanged" 
+                        Command="{Binding UsusarioSelCommand}"/>
+                    </Picker.Behaviors>
+                </Picker>
+
+                <StackLayout 
+                    Orientation="Horizontal"
+                    Padding="10"
+                    Grid.Column="1"
+                    Grid.Row="0">
+
+                    <Image 
+                    Source="DataAzul48.png"
+                    HeightRequest="20"
+                    WidthRequest="20"/>
+
+                    <DatePicker  Format="dd-MM-yyyy"
+                             MinimumDate="01/01/1970" 
+                             MaximumDate="01/01/2150"
+                             FontSize="Small"
+                             Date="{Binding DataSel}">
+
+                        <DatePicker.Behaviors>
+                            <b:EventToCommandBehavior 
+                            EventName="DateSelected" 
+                            Command="{Binding DateSelCommand}"/>
+
+                        </DatePicker.Behaviors>
+                    </DatePicker>
+
+                </StackLayout>
+
+            </Grid>
+
+
+            <ScrollView>
+                <ListView  
+                    x:Name="listView"
+                    ItemsSource="{Binding ListPedidos}">
+                    <ListView.Behaviors>
+                        <b:EventToCommandBehavior EventName="ItemTapped" 
+                                      Command="{Binding ItemTappedCommand}"
+                                      EventArgsParameterPath="Item" />
+                    </ListView.Behaviors>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Label Text="{Binding CodPedido}" TextColor="DodgerBlue" FontAttributes="Bold" Font="Meldium"/>
+                                    <Label Text="{Binding NOME_CLIENTE}" TextColor="Gray" Font="Small"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </ScrollView>
+
+
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>
